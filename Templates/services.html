@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>No Internet Dinosaur Game</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        /* Game window container */
+        .game-window {
+            width: 600px;
+            height: 400px;
+            border: 2px solid #333;
+            background-color: #fff;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .game-container {
+            width: 100%;
+            height: 100%;
+            background-color: #fff;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .dino {
+            position: absolute;
+            bottom: 0;
+            left: 50px;
+            width: 50px;
+            height: 50px;
+            background-color: #333;
+        }
+
+        .cactus {
+            position: absolute;
+            bottom: 0;
+            right: -50px;
+            width: 20px;
+            height: 40px;
+            background-color: green;
+            animation: moveCactus 2s linear infinite;
+        }
+
+        @keyframes moveCactus {
+            from {
+                right: -50px;
+            }
+            to {
+                right: 100%;
+            }
+        }
+
+        .ground {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            height: 10px;
+            background-color: black;
+        }
+
+        .jump {
+            animation: jumpDino 0.5s ease-out;
+        }
+
+        @keyframes jumpDino {
+            0% {
+                bottom: 0;
+            }
+            50% {
+                bottom: 100px;
+            }
+            100% {
+                bottom: 0;
+            }
+        }
+
+        /* Score styling */
+        .score {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            font-size: 24px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        /* High score form styling */
+        .highscore-form {
+            display: none;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: rgba(0, 0, 0, 0.8);
+            padding: 20px;
+            color: white;
+            text-align: center;
+        }
+
+        input[type="text"] {
+            width: 50px;
+            font-size: 24px;
+            text-transform: uppercase;
+            text-align: center;
+            margin-bottom: 10px;
+        }
+
+        /* Play Again button */
+        #play-again-btn {
+            display: none;
+            position: absolute;
+            top: 60%;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            font-size: 18px;
+            cursor: pointer;
+        }
+
+        /* Highscore board */
+        .highscore-board {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 18px;
+            color: #333;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="game-window">
+        <div class="game-container">
+            <div class="dino" id="dino"></div>
+            <div class="cactus" id="cactus"></div>
+            <div class="ground"></div>
+            <div class="score" id="score">Score: 0</div>
+            <div class="highscore-board" id="highscore-board">
+                <h3>High Scores</h3>
+                <ul id="highscore-list"></ul>
+            </div>
+            <div class="highscore-form" id="highscore-form">
+                <h3>New High Score!</h3>
+                <p>Enter your initials:</p>
+                <input type="text" id="initials" maxlength="3">
+                <br>
+                <button onclick="saveHighScore()">Submit</button>
+            </div>
+            <button id="play-again-btn" onclick="playAgain()">Play Again</button>
+        </div>
+    </div>
+
+    <script>
+        const dino = document.getElementById("dino");
+        const cactus = document.getElementById("cactus");
+        const scoreDisplay = document.getElementById("score");
+        const highscoreForm = document.getElementById("highscore-form");
+        const highscoreList = document.getElementById("highscore-list");
+        const playAgainBtn = document.getElementById("play-again-btn");
+
+        let score = 0;
+        let isGameOver = false;
+        let highScores = JSON.parse(localStorage.getItem('highScores')) || [];
+        let isJumping = false;
+        let cactusSpeed = 2; // Initial cactus speed (2 seconds for full animation)
+
+        document.addEventListener("keydown", function(event) {
+            if (event.code === "Space" && !isJumping && !isGameOver) {
+                jump();
+            }
+        });
+
+        function jump() {
+            if (!dino.classList.contains("jump")) {
+                isJumping = true;
+                dino.classList.add("jump");
+
+                setTimeout(function() {
+                    dino.classList.remove("jump");
+                    isJumping = false;
+                }, 500);
+            }
+        }
+
+        let isAlive = setInterval(function() {
+            if (!isGameOver) {
+                // Get current dino Y position
+                let dinoTop = parseInt(window.getComputedStyle(dino).getPropertyValue("bottom"));
+
+                // Get current cactus X position
+                let cactusLeft = cactus.offsetLeft;
+
+                // Get dino's left position (fixed at 50px) and width
+                let dinoLeft = dino.offsetLeft;
+                let dinoWidth = dino.offsetWidth;
+
+                // Check if the cactus is near the dino and if the dino is on the ground (dinoTop < 50)
+                if (cactusLeft <= (dinoLeft + dinoWidth) && cactusLeft >= dinoLeft && dinoTop < 50) {
+                    isGameOver = true;
+                    alert("Game Over!");
+                    checkForHighScore();
+                } else {
+                    // Increment the score while the game is alive
+                    score++;
+                    scoreDisplay.innerText = "Score: " + score;
+
+                    // Increase difficulty by speeding up cactus as the score increases
+                    if (score % 100 === 0) {  // Every 100 points, increase speed
+                        increaseDifficulty();
+                    }
+                }
+            }
+        }, 100);  // This interval runs every 100ms for score counting
+
+        function increaseDifficulty() {
+            cactusSpeed *= 0.9;  // Reduce the time it takes for the cactus to cross (makes it faster)
+            cactus.style.animation = `moveCactus ${cactusSpeed}s linear infinite`;
+        }
+
+        function checkForHighScore() {
+            if (highScores.length < 5 || score > highScores[highScores.length - 1].score) {
+                highscoreForm.style.display = 'block';
+            } else {
+                showPlayAgainButton();
+            }
+        }
+
+        function saveHighScore() {
+            const initials = document.getElementById("initials").value.toUpperCase();
+            const newScore = { score, initials };
+
+            // Add new score to the high score list and sort it
+            highScores.push(newScore);
+            highScores.sort((a, b) => b.score - a.score);
+
+            // Keep top 5 high scores
+            highScores = highScores.slice(0, 5);
+
+            // Save high scores to local storage
+            localStorage.setItem('highScores', JSON.stringify(highScores));
+
+            // Update the high score board and show play again button
+            highscoreForm.style.display = 'none';
+            updateHighScoreBoard();
+            showPlayAgainButton();
+        }
+
+        function showPlayAgainButton() {
+            playAgainBtn.style.display = 'block';
+        }
+
+        function updateHighScoreBoard() {
+            highscoreList.innerHTML = '';
+            highScores.forEach(score => {
+                const li = document.createElement('li');
+                li.textContent = `${score.initials}: ${score.score}`;
+                highscoreList.appendChild(li);
+            });
+        }
+
+        function playAgain() {
+            // Reset the game state
+            score = 0;
+            isGameOver = false;
+            cactusSpeed = 2;  // Reset the cactus speed
+            scoreDisplay.innerText = "Score: 0";
+
+            // Hide play again button
+            playAgainBtn.style.display = 'none';
+
+            // Reset the cactus animation
+            cactus.style.animation = 'none';
+            setTimeout(() => {
+                cactus.style.animation = `moveCactus ${cactusSpeed}s linear infinite`;
+            }, 0);
+        }
+
+        // Initial call to display high scores on page load
+        updateHighScoreBoard();
+
+    </script>
+</body>
+</html>
