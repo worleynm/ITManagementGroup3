@@ -22,9 +22,10 @@ def services():
 def contact():
     return render_template('contact.html')
 
-@app.route('/charter')
-def contact():
-    return render_template('charter.html')
+# Charter page route
+# @app.route('/charter')
+# def contact():
+    # return render_template('charter.html')
 
 # Projects page route
 @app.route('/projects')
