@@ -23,8 +23,8 @@ def contact():
     return render_template('contact.html')
 
 # Charter page route
-#@app.route('/charter')
-#def contact():
+@app.route('/charter')
+def charter():
     #return render_template('charter.html')
 
 # SOWs page route
