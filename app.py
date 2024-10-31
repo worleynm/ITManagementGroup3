@@ -25,7 +25,7 @@ def contact():
 # Charter page route
 @app.route('/charter')
 def charter():
-    #return render_template('charter.html')
+    return render_template('charter.html')
 
 # SOWs page route
 @app.route('/SOWs')
