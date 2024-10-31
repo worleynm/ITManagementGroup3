@@ -4,12 +4,12 @@ app = Flask(__name__)
 
 # Homepage route
 @app.route('/')
-def home():
+def index():
     return render_template('index.html')
 
 # About page route
 @app.route('/charter')
-def about():
+def charteer():
     return render_template('Project_charter.html')
 
 # Services page route
@@ -28,18 +28,18 @@ def contact():
     #return render_template('charter.html')
 
 # SOWs page route
-@app.route('/sows')
-def contact():
-    return render_template('SOWs.html')
+@app.route('/SOWs')
+def sows():
+    return render_template('sows.html')
 
 # WBS page route
-@app.route('/wbs')
-def contact():
+@app.route('/WBS')
+def wbs():
     return render_template('WBS.html')
 
 # GanttChart page route
-@app.route('/ganttchart')
-def contact():
+@app.route('/GanttChart')
+def ganttchart():
     return render_template('GanttChart.html')
 
 # Projects page route
