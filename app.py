@@ -23,9 +23,24 @@ def contact():
     return render_template('contact.html')
 
 # Charter page route
-# @app.route('/charter')
-# def contact():
-    # return render_template('charter.html')
+@app.route('/charter')
+def contact():
+    return render_template('charter.html')
+
+# SOWs page route
+@app.route('/sows')
+def contact():
+    return render_template('SOWs.html')
+
+# WBS page route
+@app.route('/wbs')
+def contact():
+    return render_template('WBS.html')
+
+# GanttChart page route
+@app.route('/ganttchart')
+def contact():
+    return render_template('GanttChart.html')
 
 # Projects page route
 @app.route('/projects')
