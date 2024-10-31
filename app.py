@@ -9,7 +9,7 @@ def index():
 
 # About page route
 @app.route('/charter')
-def charteer():
+def about():
     return render_template('Project_charter.html')
 
 # Services page route
