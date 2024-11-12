@@ -20,7 +20,7 @@ def services():
 # Contact page route
 @app.route('/contact')
 def contact():
-    return render_template('contact.html')
+    return render_template('Contact.html')
 
 # Charter page route
 @app.route('/charter')
@@ -45,7 +45,7 @@ def ganttchart():
 # Projects page route
 @app.route('/projects')
 def projects():
-    return render_template('projects.html')
+    return render_template('Projects.html')
 
 # Blog page route
 @app.route('/blog')
