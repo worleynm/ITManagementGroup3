@@ -52,6 +52,11 @@ def projects():
 def blog():
     return render_template('blog.html')
 
+# Cost Estimator page route
+@app.route('/CostEstimator')
+def costestimators():
+    return render_template('CostEstimator.html')
+
 if __name__ == "__main__":
     app.run(debug=True)
 # NEED TO CHANGE FILE NAMES STILL
