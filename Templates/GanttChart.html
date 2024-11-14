@@ -39,7 +39,7 @@
       <input type="text" id="task-dependencies">
     </label>
     <br>
-    <button type="button" onclick="addTask()">Add Task</button>
+    <button type="button" onclick="addOrUpdateTask()">Add Task</button>
   </form>
 
   <script>
@@ -53,8 +53,8 @@
       date_format: 'YYYY-MM-DD'
     });
 
-    // Function to add a new task
-    function addTask() {
+    // Function to add or update a task
+    function addOrUpdateTask() {
       // Get values from form inputs
       const name = document.getElementById('task-name').value;
       const start = document.getElementById('task-start').value;
@@ -62,29 +62,56 @@
       const progress = document.getElementById('task-progress').value;
       const dependencies = document.getElementById('task-dependencies').value;
 
-      // Generate a unique ID for the new task
-      const id = `Task ${tasks.length + 1}`;
+      // Check if a task with the same name already exists
+      const existingTaskIndex = tasks.findIndex(task => task.name === name);
 
-      // Create a new task object
-      const newTask = {
-        id: id,
-        name: name,
-        start: start,
-        end: end,
-        progress: parseInt(progress),
-        dependencies: dependencies
-      };
+      if (existingTaskIndex > -1) {
+        // Update the existing task
+        tasks[existingTaskIndex].start = start;
+        tasks[existingTaskIndex].end = end;
+        tasks[existingTaskIndex].progress = parseInt(progress);
+        tasks[existingTaskIndex].dependencies = dependencies;
+      } else {
+        // Generate a unique ID for the new task
+        const id = `Task ${tasks.length + 1}`;
 
-      // Add new task to the tasks array
-      tasks.push(newTask);
+        // Create a new task object
+        const newTask = {
+          id: id,
+          name: name,
+          start: start,
+          end: end,
+          progress: parseInt(progress),
+          dependencies: dependencies
+        };
 
-      // Clear the Gantt container and re-render with the updated tasks array
+        // Add new task to the tasks array
+        tasks.push(newTask);
+      }
+
+      // Clear and refresh the Gantt chart with the updated tasks array
+      refreshGanttChart();
+
+      // Clear the form inputs
+      document.getElementById('task-name').value = '';
+      document.getElementById('task-start').value = '';
+      document.getElementById('task-end').value = '';
+      document.getElementById('task-progress').value = '';
+      document.getElementById('task-dependencies').value = '';
+    }
+
+    // Function to refresh the Gantt chart
+    function refreshGanttChart() {
+      // Clear the Gantt container
       document.getElementById('gantt').innerHTML = '';
+
+      // Re-initialize the Gantt chart with the updated tasks array
       gantt = new Gantt("#gantt", tasks, {
         view_mode: 'Day',
         date_format: 'YYYY-MM-DD'
       });
     }
+
   </script>
 
 </body>
