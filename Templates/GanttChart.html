@@ -1,26 +1,91 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Contact Us</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Interactive Gantt Chart</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/frappe-gantt@0.5.0/dist/frappe-gantt.css">
+  <script src="https://cdn.jsdelivr.net/npm/frappe-gantt@0.5.0/dist/frappe-gantt.min.js"></script>
 </head>
 <body>
-    <h1>Contact Us</h1>
-    <div class="container">
-        <nav>
-            <a href="/">Home</a> | 
-            <a href="/services">Services</a> | 
-            <a href="/contact">Contact</a> | 
-            <a href="/projects">Projects</a> | 
-            <a href="/blog">Blog</a> |
-            <a href="/SOWs">SOW</a> |
-            <a href="/WBS">WBS</a> |
-            <a href="/GanttChart">GanttChart</a> |
-            <a href="/CostEstimator">CostEstimator</a> |
-        </nav>
-        <p>This is a simple Flask app that serves a web page.</p>
-    </div>
-    <p>This is our contact page.</p>
+
+  <h1>Project Timeline</h1>
+  <div id="gantt"></div>
+
+  <h2>Add a New Task</h2>
+  <form id="task-form">
+    <label>
+      Task Name:
+      <input type="text" id="task-name" required>
+    </label>
+    <br>
+    <label>
+      Start Date:
+      <input type="date" id="task-start" required>
+    </label>
+    <br>
+    <label>
+      End Date:
+      <input type="date" id="task-end" required>
+    </label>
+    <br>
+    <label>
+      Progress (%):
+      <input type="number" id="task-progress" min="0" max="100" required>
+    </label>
+    <br>
+    <label>
+      Dependencies (Task ID):
+      <input type="text" id="task-dependencies">
+    </label>
+    <br>
+    <button type="button" onclick="addTask()">Add Task</button>
+  </form>
+
+  <script>
+    // Initial tasks
+    const tasks = [
+    ];
+
+    // Initialize Gantt chart
+    let gantt = new Gantt("#gantt", tasks, {
+      view_mode: 'Day',
+      date_format: 'YYYY-MM-DD'
+    });
+
+    // Function to add a new task
+    function addTask() {
+      // Get values from form inputs
+      const name = document.getElementById('task-name').value;
+      const start = document.getElementById('task-start').value;
+      const end = document.getElementById('task-end').value;
+      const progress = document.getElementById('task-progress').value;
+      const dependencies = document.getElementById('task-dependencies').value;
+
+      // Generate a unique ID for the new task
+      const id = `Task ${tasks.length + 1}`;
+
+      // Create a new task object
+      const newTask = {
+        id: id,
+        name: name,
+        start: start,
+        end: end,
+        progress: parseInt(progress),
+        dependencies: dependencies
+      };
+
+      // Add new task to the tasks array
+      tasks.push(newTask);
+
+      // Clear the Gantt container and re-render with the updated tasks array
+      document.getElementById('gantt').innerHTML = '';
+      gantt = new Gantt("#gantt", tasks, {
+        view_mode: 'Day',
+        date_format: 'YYYY-MM-DD'
+      });
+    }
+  </script>
+
 </body>
 </html>
