@@ -18,9 +18,9 @@ def services():
     return render_template('services.html')
 
 # Contact page route
-@app.route('/contact')
+@app.route('/team_profile')
 def contact():
-    return render_template('Contact.html')
+    return render_template('team_profile.html')
 
 # Charter page route
 @app.route('/charter')
