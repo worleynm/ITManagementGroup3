@@ -1,9 +1,9 @@
-from flask_bootstrap import Bootstrap5
+from flask_bootstrap import Bootstrap
 from flask import Flask, render_template
 
 app = Flask(__name__)
 
-bookstrap = Bootstrap5(app)
+bookstrap = Bootstrap(app)
 
 # Homepage route
 @app.route('/')
