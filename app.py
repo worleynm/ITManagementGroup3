@@ -3,7 +3,7 @@ from flask import Flask, render_template
 
 app = Flask(__name__)
 
-bookstrap = Bootstrap(app)
+bootstrap = Bootstrap(app)
 
 # Homepage route
 @app.route('/')
