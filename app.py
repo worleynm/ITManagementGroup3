@@ -51,6 +51,11 @@ def costestimators():
 def progressreport():
     return render_template('ProgressReport.html')
 
+# StatusReport page route
+@app.route('/StatusReport')
+def statusreport():
+    return render_template('StatusReport.html')
+
 if __name__ == "__main__":
     app.run(debug=True)
 # NEED TO CHANGE FILE NAMES STILL
