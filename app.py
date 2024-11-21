@@ -30,11 +30,6 @@ def contact():
 def charter():
     return render_template('charter.html')
 
-# SOWs page route
-@app.route('/SOWs')
-def sows():
-    return render_template('sows.html')
-
 # WBS page route
 @app.route('/WBS')
 def wbs():
@@ -45,15 +40,6 @@ def wbs():
 def ganttchart():
     return render_template('GanttChart.html')
 
-# Projects page route
-@app.route('/projects')
-def projects():
-    return render_template('Projects.html')
-
-# Blog page route
-@app.route('/blog')
-def blog():
-    return render_template('blog.html')
 
 # Cost Estimator page route
 @app.route('/CostEstimator')
