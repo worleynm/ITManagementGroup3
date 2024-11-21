@@ -46,6 +46,11 @@ def ganttchart():
 def costestimators():
     return render_template('CostEstimator.html')
 
+# ProgressReport page route
+@app.route('/ProgressReport')
+def progressreport():
+    return render_template('ProgressReport.html')
+
 if __name__ == "__main__":
     app.run(debug=True)
 # NEED TO CHANGE FILE NAMES STILL

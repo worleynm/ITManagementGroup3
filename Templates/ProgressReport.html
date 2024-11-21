@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project Report Template</title>
+</head>
+<body>
+    <h1>Project Report Form</h1>
+    <form id="project-report-form">
+        <label for="project-title">Project Title:</label>
+        <input type="text" id="project-title" name="project-title" required>
+
+        <label for="author-name">Author(s):</label>
+        <input type="text" id="author-name" name="author-name" required>
+
+        <label for="project-date">Date:</label>
+        <input type="date" id="project-date" name="project-date" required>
+
+        <label for="project-description">Project Description:</label>
+        <textarea id="project-description" name="project-description" rows="4" required></textarea>
+
+        <label for="objectives">Objectives:</label>
+        <textarea id="objectives" name="objectives" rows="4" required></textarea>
+
+        <label for="methodology">Methodology:</label>
+        <textarea id="methodology" name="methodology" rows="4" required></textarea>
+
+        <label for="results">Results:</label>
+        <textarea id="results" name="results" rows="4" required></textarea>
+
+        <label for="challenges">Challenges Faced:</label>
+        <textarea id="challenges" name="challenges" rows="4"></textarea>
+
+        <label for="conclusion">Conclusion:</label>
+        <textarea id="conclusion" name="conclusion" rows="4" required></textarea>
+
+        <label for="recommendations">Recommendations:</label>
+        <textarea id="recommendations" name="recommendations" rows="4"></textarea>
+
+        <label for="references">References:</label>
+        <textarea id="references" name="references" rows="4"></textarea>
+
+        <button type="button" onclick="saveAsCSV()">Save as CSV</button>
+    </form>
+
+    <h2>Last 10 Created CSVs</h2>
+    <table id="csv-table" border="1">
+        <thead>
+            <tr>
+                <th>Project Name</th>
+                <th>Download Link</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+
+    <script>
+        const csvHistory = []; // Array to store the last 10 CSVs
+
+        function saveAsCSV() {
+            const form = document.getElementById('project-report-form');
+            const formData = new FormData(form);
+
+            const rows = [];
+            let projectTitle = "project_report"; // Default filename
+
+            // Create rows with labels and values
+            for (const element of form.elements) {
+                if (element.tagName === 'INPUT' || element.tagName === 'TEXTAREA') {
+                    const label = document.querySelector(`label[for="${element.id}"]`);
+                    if (label) {
+                        const labelText = label.textContent.trim();
+                        const value = element.value.trim();
+                        rows.push([labelText, value]);
+
+                        // Set project title as filename if it's the Project Title field
+                        if (element.id === 'project-title') {
+                            projectTitle = value || "project_report";
+                        }
+                    }
+                }
+            }
+
+            // Format rows into CSV
+            const csvContent = rows.map(row => row.map(value => `"${value}"`).join(",")).join("\n");
+
+            // Create a Blob object
+            const blob = new Blob([csvContent], { type: 'text/csv' });
+            const url = URL.createObjectURL(blob);
+
+            // Add to CSV history and limit to the last 10
+            csvHistory.unshift({ projectName: projectTitle, csvUrl: url });
+            if (csvHistory.length > 10) csvHistory.pop();
+
+            // Update the table
+            updateCSVTable();
+
+            // Automatically trigger download
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = `${projectTitle.replace(/\s+/g, "_").toLowerCase()}.csv`;
+            link.click();
+        }
+
+        function updateCSVTable() {
+            const tableBody = document.getElementById('csv-table').querySelector('tbody');
+            tableBody.innerHTML = ""; // Clear the table
+
+            csvHistory.forEach((csv, index) => {
+                const row = document.createElement('tr');
+                const nameCell = document.createElement('td');
+                const linkCell = document.createElement('td');
+                const link = document.createElement('a');
+
+                nameCell.textContent = csv.projectName;
+                link.href = csv.csvUrl;
+                link.textContent = "Download";
+                link.download = `${csv.projectName.replace(/\s+/g, "_").toLowerCase()}.csv`;
+
+                linkCell.appendChild(link);
+                row.appendChild(nameCell);
+                row.appendChild(linkCell);
+                tableBody.appendChild(row);
+            });
+        }
+    </script>
+</body>
+</html>
