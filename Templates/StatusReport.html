@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Status Report</title>
+</head>
+<body>
+    <h1>Status Report</h1>
+    <form id="status-report-form">
+        <label for="project-name">Project Name:</label><br>
+        <input type="text" id="project-name" name="project-name" required><br><br>
+
+        <label for="status">Current Status:</label><br>
+        <select id="status" name="status" required>
+            <option value="on-track">On Track</option>
+            <option value="at-risk">At Risk</option>
+            <option value="behind-schedule">Behind Schedule</option>
+        </select><br><br>
+
+        <label for="completion-percentage">Percentage Completed:</label><br>
+        <input type="range" id="completion-percentage" name="completion-percentage" min="0" max="100" value="0" oninput="updateSliderValue(this.value)" required>
+        <span id="slider-value">0%</span><br><br>
+
+        <label for="issues">Issues/Risks:</label><br>
+        <textarea id="issues" name="issues" rows="4" cols="50" placeholder="Describe any issues or risks"></textarea><br><br>
+
+        <label for="next-steps">Next Steps:</label><br>
+        <textarea id="next-steps" name="next-steps" rows="4" cols="50" placeholder="Outline the next steps"></textarea><br><br>
+
+        <button type="submit">Submit Report</button>
+    </form>
+
+    <h2>Recent Status Reports</h2>
+    <div id="status-feed">
+        <!-- Status reports will appear here -->
+    </div>
+
+    <script>
+        function updateSliderValue(val) {
+            document.getElementById('slider-value').textContent = val + '%';
+        }
+
+        // Handle form submission and update the feed
+        document.getElementById('status-report-form').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            // Set today's date as the report date
+            const todayDate = new Date().toISOString().split('T')[0];
+
+            // Get form data
+            const projectName = document.getElementById('project-name').value;
+            const status = document.getElementById('status').value;
+            const completionPercentage = document.getElementById('completion-percentage').value;
+            const issues = document.getElementById('issues').value;
+            const nextSteps = document.getElementById('next-steps').value;
+
+            // Create a new status report object
+            const newReport = {
+                project: projectName,
+                status: status,
+                percentage: completionPercentage,
+                issues: issues,
+                nextSteps: nextSteps,
+                date: todayDate
+            };
+
+            // Add the new report to the top of the status feed
+            addStatusReportToFeed(newReport);
+
+            // Reset the form
+            document.getElementById('status-report-form').reset();
+            document.getElementById('slider-value').textContent = '0%';
+        });
+
+        function addStatusReportToFeed(report) {
+            const feed = document.getElementById('status-feed');
+            const reportDiv = document.createElement('div');
+            reportDiv.style.borderBottom = "1px solid #ccc";
+            reportDiv.style.paddingBottom = "10px";
+            reportDiv.style.marginBottom = "10px";
+            reportDiv.innerHTML = `
+                <strong>${report.project}</strong> - ${report.status} (${report.percentage}% complete)<br>
+                <strong>Issues/Risks:</strong> ${report.issues}<br>
+                <strong>Next Steps:</strong> ${report.nextSteps}<br>
+                <strong>Report Date:</strong> ${report.date}<br>
+            `;
+            // Add the new report to the top of the feed
+            feed.insertBefore(reportDiv, feed.firstChild);
+        }
+    </script>
+</body>
+</html>
