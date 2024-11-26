@@ -1,33 +1,69 @@
 <!DOCTYPE html>
-<html lang = "en">
-<head> 
-    <title>Website</title>
+<html lang="en">
+
+<head>
+    <title>{% block title %}Website{% endblock %}</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css')}}">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="/js/script.js"></script>
 </head>
+
 <body>
-<nav>
-    <a href="/">Home</a> | 
-    <a href="/about">About</a> | 
-    <a href="/services">Services</a> | 
-    <a href="/contact">Contact</a> | 
-    <a href="/WBS">WBS</a> |
-    <a href="/GanttChart">GanttChart</a> |
-</nav>
+    <header>
+        <div class="center">
+            <h1>IT Project Management Group 3</h1>
+        </div>
+    </header>
+    <nav>
+        <ul class="nav nav-pills">
+            <div class="center">
+                <li class="nav-item">
+                    <a class="nav-link" href="/services">Services</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" href="/team_profile">Team Profile</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/charter">Project Charter</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/WBS">WBS</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/StatusReport">Status Report</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/ProgressReport">Progress Report</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/GanttChart">Gantt Chart</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/CostEstimator">Cost Estimator</a>
+                </li>
+            </div>
+        </ul>
+    </nav>
 
 
-//MAIN CONTENT
 
+    <main>
+        {% block content %}
+
+        {% endblock %}
+    </main>
 
 </body>
 
-
-//FOOTER
-
-
-
 </body>
+
+{% block footer %}
+<footer>
+    <div class="center">
+        <p>&copy; 2024 Your Company. All rights reserved.</p>
+    </div>
+</footer>
+{% endblock %}
+
 </html>
-
