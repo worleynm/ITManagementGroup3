@@ -1,11 +1,7 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Project Report Template</title>
-</head>
-<body>
+{% extends 'layout.html' %}
+{% block title %}Progress Report{% endblock %}
+{% block content %}
+<div class="progress-report-page">
     <h1>Project Report Form</h1>
     <form id="project-report-form">
         <label for="project-title">Project Title:</label>
@@ -125,5 +121,9 @@
             });
         }
     </script>
-</body>
-</html>
+</div>
+
+{% endblock %}
+
+{% block footer %}
+{% endblock %}
