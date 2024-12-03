@@ -1,10 +1,25 @@
 {% extends 'layout.html' %}
 {% block title %}WBS{% endblock %}
 {% block content %}
+<style>
+        .pdf {
+          overflow: hidden;
+          padding-top: 56.25%;
+          position: relative;
+        }
 
-<h1>Contact Us</h1>
-<p>This is our contact page.</p>
-
+        .pdf embed {
+          border: 0;
+          height: 100%;
+          left: 0;
+          position: absolute;
+          top: 0;
+          width: 100%;
+        }
+    </style>
+<h1>Work Breakdown Structure</h1>
+<p>This is our WBS for our project</p>
+<div class="pdf"><embed src="../static/WBS.pdf" type="application/pdf"></div>
 {% endblock %}
 
 {% block footer %}
