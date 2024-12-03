@@ -1,6 +1,12 @@
 {% extends 'layout.html' %}
 {% block title %}Team Profile{% endblock %}
 {% block content %}
+<script>
+  function toggleStatement(id) {
+    const element = document.getElementById(id);
+    element.classList.toggle("show");
+  }
+  </script>
 <div class="team-profile">
   <div class="about-section">
     <h1>About Us Page</h1>
