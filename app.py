@@ -56,6 +56,11 @@ def progressreport():
 def statusreport():
     return render_template('StatusReport.html')
 
+# RiskManagementPlan page route
+@app.route('/RiskManagementPlan')
+def riskmanagementplan():
+    return render_template('RiskManagementPlan.html')
+
 if __name__ == "__main__":
     app.run(debug=True)
 # NEED TO CHANGE FILE NAMES STILL
