@@ -1,11 +1,7 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Status Report</title>
-</head>
-<body>
+{% extends 'layout.html' %}
+{% block title %}Status Report{% endblock %}
+{% block content %}
+<div class="status-report-page">
     <h1>Status Report</h1>
     <form id="status-report-form">
         <label for="project-name">Project Name:</label><br>
@@ -19,14 +15,17 @@
         </select><br><br>
 
         <label for="completion-percentage">Percentage Completed:</label><br>
-        <input type="range" id="completion-percentage" name="completion-percentage" min="0" max="100" value="0" oninput="updateSliderValue(this.value)" required>
+        <input type="range" id="completion-percentage" name="completion-percentage" min="0" max="100" value="0"
+            oninput="updateSliderValue(this.value)" required>
         <span id="slider-value">0%</span><br><br>
 
         <label for="issues">Issues/Risks:</label><br>
-        <textarea id="issues" name="issues" rows="4" cols="50" placeholder="Describe any issues or risks"></textarea><br><br>
+        <textarea id="issues" name="issues" rows="4" cols="50"
+            placeholder="Describe any issues or risks"></textarea><br><br>
 
         <label for="next-steps">Next Steps:</label><br>
-        <textarea id="next-steps" name="next-steps" rows="4" cols="50" placeholder="Outline the next steps"></textarea><br><br>
+        <textarea id="next-steps" name="next-steps" rows="4" cols="50"
+            placeholder="Outline the next steps"></textarea><br><br>
 
         <button type="submit">Submit Report</button>
     </form>
@@ -42,7 +41,7 @@
         }
 
         // Handle form submission and update the feed
-        document.getElementById('status-report-form').addEventListener('submit', function(event) {
+        document.getElementById('status-report-form').addEventListener('submit', function (event) {
             event.preventDefault();
 
             // Set today's date as the report date
@@ -89,5 +88,9 @@
             feed.insertBefore(reportDiv, feed.firstChild);
         }
     </script>
-</body>
-</html>
+</div>
+
+{% endblock %}
+
+{% block footer %}
+{% endblock %}
