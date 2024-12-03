@@ -148,6 +148,10 @@ input[type="text"] {
     margin-bottom: 10px;
 }
 
+input[type="date"] {
+    width: 50%;
+}
+
 textarea {
     width: 50%;
 }
