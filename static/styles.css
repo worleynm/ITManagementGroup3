@@ -156,6 +156,14 @@ input[type="number"] {
     width: 50%;
 }
 
+input[type="range"] {
+    width: 50%;
+}
+
+select {
+    width: 50%;
+}
+
 textarea {
     width: 50%;
 }

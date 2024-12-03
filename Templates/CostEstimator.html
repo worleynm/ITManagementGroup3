@@ -1,7 +1,7 @@
 {% extends 'layout.html' %}
 {% block title %}Cost Estimator{% endblock %}
 {% block content %}
-<div class="project-cost-estimator-page">
+<div class="project-cost-estimator-page center">
     <h2>Project Cost Estimator</h2>
 
     <label for="labor">Labor Cost:</label>
@@ -102,7 +102,7 @@
 </head>
 
 <body>
-
+<div class="center">
     <h2>Project Cost Estimator</h2>
 
     <label for="labor">Labor Cost:</label>
@@ -117,7 +117,7 @@
     <button onclick="calculateTotal()">Calculate Total Cost</button>
 
     <div class="result" id="totalCost"></div>
-
+</div>
     <script>
         function calculateTotal() {
             // Get values from input fields
