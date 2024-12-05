@@ -348,3 +348,9 @@ button:hover {
     margin-top: 20px;
     font-weight: bold;
 }
+
+/* AOA diagram Page Styling */
+
+.form {
+    text-align: center;
+}

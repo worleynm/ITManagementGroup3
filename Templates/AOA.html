@@ -11,6 +11,7 @@
 <body>
 
     <!-- Form to input a single activity with custom coordinates -->
+     <div class = "form">
     <form id="activity-form" onsubmit="addActivity(event)">
         <label for="predecessor">Predecessor:</label>
         <input type="text" id="predecessor" required><br><br>
@@ -26,6 +27,7 @@
 
         <button type="submit">Submit</button>
     </form>
+    </div>
 
     <!-- Div for Plotly chart -->
     <div id="aoa-diagram" style="width: 100%; height: 600px; margin-top: 20px;"></div>
