@@ -61,6 +61,11 @@ def statusreport():
 def riskmanagementplan():
     return render_template('RiskManagementPlan.html')
 
+# AOA Diagrem page route
+@app.route('/AOA')
+def aoa():
+    return render_template('AOA.html')
+
 if __name__ == "__main__":
     app.run(debug=True)
 # NEED TO CHANGE FILE NAMES STILL
