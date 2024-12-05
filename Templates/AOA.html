@@ -1,0 +1,129 @@
+{% extends 'layout.html' %}
+{% block title %}AOA diagram{% endblock %}
+{% block content %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Include Plotly.js library -->
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+</head>
+<body>
+
+    <!-- Form to input a single activity with custom coordinates -->
+    <form id="activity-form" onsubmit="addActivity(event)">
+        <label for="predecessor">Predecessor:</label>
+        <input type="text" id="predecessor" required><br><br>
+
+        <label for="successor">Successor:</label>
+        <input type="text" id="successor" required><br><br>
+
+        <label for="x-coord">X Position:</label>
+        <input type="number" id="x-coord" step="0.1" required><br><br>
+
+        <label for="y-coord">Y Position:</label>
+        <input type="number" id="y-coord" step="0.1" required><br><br>
+
+        <button type="submit">Submit</button>
+    </form>
+
+    <!-- Div for Plotly chart -->
+    <div id="aoa-diagram" style="width: 100%; height: 600px; margin-top: 20px;"></div>
+
+    <script>
+        let edges = []; // Store edges globally
+        let nodes = []; // Store unique nodes
+        let nodePositions = {}; // Store node positions
+
+        function addActivity(event) {
+            event.preventDefault(); // Prevent form from refreshing the page
+
+            const predecessor = document.getElementById('predecessor').value.trim();
+            const successor = document.getElementById('successor').value.trim();
+            const xCoord = parseFloat(document.getElementById('x-coord').value.trim());
+            const yCoord = parseFloat(document.getElementById('y-coord').value.trim());
+
+            if (predecessor && successor) {
+                edges.push([predecessor, successor]);
+
+                // Assign custom positions
+                if (!nodePositions[predecessor]) {
+                    nodePositions[predecessor] = { x: xCoord, y: yCoord };
+                    nodes.push(predecessor);
+                }
+
+                if (!nodePositions[successor]) {
+                    nodePositions[successor] = { x: xCoord + 2, y: yCoord }; // Offset successor to avoid overlap
+                    nodes.push(successor);
+                }
+
+                document.getElementById('predecessor').value = '';
+                document.getElementById('successor').value = '';
+                document.getElementById('x-coord').value = '';
+                document.getElementById('y-coord').value = '';
+                generateDiagram(); // Update diagram
+            } else {
+                alert('All fields are required.');
+            }
+        }
+
+        function generateDiagram() {
+            // Create Plotly traces
+            const nodeTrace = {
+                x: nodes.map(node => nodePositions[node].x),
+                y: nodes.map(node => nodePositions[node].y),
+                text: nodes,
+                mode: 'markers+text',
+                textposition: 'top center',
+                marker: { size: 30 },
+                type: 'scatter',
+                name: 'Nodes',
+                hoverinfo: 'text',
+            };
+
+            const edgeTrace = {
+                x: edges.flatMap(([start, end]) => [
+                    nodePositions[start].x,
+                    nodePositions[end].x,
+                    null
+                ]),
+                y: edges.flatMap(([start, end]) => [
+                    nodePositions[start].y,
+                    nodePositions[end].y,
+                    null
+                ]),
+                mode: 'lines',
+                line: { width: 2 },
+                type: 'scatter',
+                name: 'Edges',
+                hoverinfo: 'none',
+            };
+
+            Plotly.newPlot('aoa-diagram', [edgeTrace, nodeTrace], {
+                showlegend: false,
+                dragmode: 'closest', // Allow node dragging
+                margin: { l: 0, r: 0, t: 0, b: 0 }
+            });
+
+            // Attach drag event handler
+            document.getElementById('aoa-diagram').on('plotly_relayout', eventData => updateNodePositions(eventData));
+        }
+
+        function updateNodePositions(eventData) {
+            if (eventData['xaxis.range[0]']) {
+                const updatedX = eventData['x'];
+                const updatedY = eventData['y'];
+
+                nodes.forEach((node, index) => {
+                    nodePositions[node].x = updatedX[index];
+                    nodePositions[node].y = updatedY[index];
+                });
+
+                generateDiagram(); // Re-render with updated positions
+            }
+        }
+    </script>
+
+</body>
+</html>
+{% endblock %}
