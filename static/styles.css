@@ -47,6 +47,11 @@ footer {
 
 /* Home Page styling */
 
+.home-content {
+    text-align: center;
+    text-wrap: wrap;
+}
+
 /* Service Page styling */
 
 .game {
