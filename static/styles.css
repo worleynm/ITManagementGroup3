@@ -1,3 +1,12 @@
+/* General styling */
+.page-title {
+    color: #14281d;
+}
+
+body {
+    background-color: #f1f5f2;
+}
+
 nav {
     display: inline;
 }
@@ -7,7 +16,7 @@ nav {
     margin: 0;
     padding: 0;
     overflow: hidden;
-    background-color: #333;
+    background-color: #14281d;
 }
 
 .nav-item {
@@ -23,7 +32,7 @@ li a {
 }
 
 li a:hover {
-    background-color: #111;
+    background-color: #355834;
 }
 
 .center {
@@ -32,11 +41,17 @@ li a:hover {
     margin-right: auto;
 }
 
+footer {
+    background-color: #f1f5f2;
+}
+
+/* Home Page styling */
+
 /* Service Page styling */
 
 .game {
     font-family: Arial, sans-serif;
-    background-color: #f0f0f0;
+    background-color: #f1f5f2;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -224,7 +239,8 @@ html {
 .about-section {
     padding: 50px;
     text-align: center;
-    background-color: #474e5d;
+    background-color: #355834;
+    /* background-color: #474e5d; */
     color: white;
 }
 
@@ -272,6 +288,9 @@ html {
 
 .status-report-page {
     text-align: center;
+    max-width: 50%;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 /* Progress Report Page Styling */
@@ -279,6 +298,7 @@ html {
 .progress-report-page {
     text-align: center;
 }
+
 
 /* Gantt Chart Page Styling */
 
@@ -308,14 +328,14 @@ button {
     padding: 10px;
     font-size: 16px;
     margin-top: 15px;
-    background-color: #28a745;
+    background-color: #355834;
     color: #fff;
     border: none;
     cursor: pointer;
 }
 
 button:hover {
-    background-color: #218838;
+    background-color: #14281d;
 }
 
 .result {
